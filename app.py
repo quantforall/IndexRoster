@@ -128,6 +128,45 @@ def inject_css():
             border-radius: 8px;
         }}
         .stButton>button:hover, .stDownloadButton>button:hover {{ filter: brightness(1.08); color:{NAVY_BG}; }}
+
+        /* ===== Robustez de tema: fuerza el look oscuro aunque Streamlit NO cargue
+           el tema (p. ej. si config.toml no queda en la raíz del repo en Cloud) ===== */
+        [data-testid="stHeader"] {{ background: transparent !important; }}
+        .stApp, .stApp p, .stApp li, .stApp label, .stApp span,
+        section[data-testid="stSidebar"], section[data-testid="stSidebar"] *,
+        [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] *,
+        [data-testid="stMarkdownContainer"], [data-testid="stMarkdownContainer"] p,
+        [data-testid="stMarkdownContainer"] li, [data-testid="stMarkdownContainer"] strong,
+        [data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] * {{
+            color: {WHITE} !important;
+        }}
+        .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5 {{ color: {WHITE} !important; }}
+        /* Reafirma los colores propios (que no queden blancos) */
+        [data-testid="stMarkdownContainer"] .q4a-hero-sub,
+        [data-testid="stMarkdownContainer"] .q4a-metric .lbl,
+        [data-testid="stMarkdownContainer"] .q4a-news p,
+        [data-testid="stMarkdownContainer"] .q4a-footer {{ color: {MUTED} !important; }}
+        [data-testid="stMarkdownContainer"] .q4a-metric .val,
+        [data-testid="stMarkdownContainer"] .q4a-update,
+        [data-testid="stMarkdownContainer"] .q4a-pill.out {{ color: {ORANGE} !important; }}
+        [data-testid="stMarkdownContainer"] .q4a-pill.in {{ color: {BLUE} !important; }}
+        [data-testid="stMarkdownContainer"] .q4a-news a {{ color: {NAVY_BG} !important; }}
+        /* Inputs (select, texto, fecha) oscuros con texto claro */
+        [data-baseweb="select"] > div, [data-baseweb="input"], [data-baseweb="base-input"] {{
+            background-color: {NAVY_CARD} !important;
+        }}
+        [data-baseweb="select"] div, [data-baseweb="input"] input,
+        [data-baseweb="base-input"] input {{ color: {WHITE} !important; }}
+        [data-baseweb="input"] input::placeholder {{ color: {MUTED} !important; }}
+        /* Desplegable de opciones oscuro */
+        ul[role="listbox"], [data-baseweb="menu"], [data-baseweb="popover"] [role="listbox"] {{
+            background-color: {NAVY_CARD} !important;
+        }}
+        li[role="option"], li[role="option"] * {{ color: {WHITE} !important; }}
+        /* Acento naranja en radios y segmented control aunque no cargue el tema */
+        [data-baseweb="radio"] [aria-checked="true"] div:first-child {{
+            background-color: {ORANGE} !important; border-color: {ORANGE} !important;
+        }}
         </style>
         """,
         unsafe_allow_html=True,
