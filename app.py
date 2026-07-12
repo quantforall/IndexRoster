@@ -341,7 +341,11 @@ def build_price_chart(hist: pd.DataFrame, summary: dict, t) -> go.Figure:
         hovermode="x unified",
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
         xaxis=dict(gridcolor="rgba(169,180,196,.12)", rangeslider=dict(visible=False)),
-        yaxis=dict(gridcolor="rgba(169,180,196,.12)", title=t("f1_price") + " ($)"),
+        yaxis=dict(
+            gridcolor="rgba(169,180,196,.12)",
+            title=t("f1_price") + " ($)",
+            type="log",  # escala logarítmica (mejor para ver rentabilidad a largo plazo)
+        ),
     )
     return fig
 
