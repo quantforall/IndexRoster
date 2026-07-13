@@ -120,12 +120,12 @@ def inject_css():
             display: flex; align-items: center; justify-content: space-between;
             gap: 1rem; flex-wrap: wrap;
             background: rgba(247,147,30,.10); border: 1px solid rgba(247,147,30,.4);
-            border-radius: 12px; padding: .85rem 1.2rem; margin: 1.4rem 0 .3rem 0;
+            border-radius: 12px; padding: 0 .8rem; min-height: 2.5rem; margin: 0;
         }}
         .q4a-cta .txt {{ color: {WHITE}; font-weight: 600; }}
         .q4a-cta a {{
             display: inline-block; background: {ORANGE}; color: {NAVY_BG} !important;
-            font-weight: 700; text-decoration: none; padding: .5rem 1.15rem;
+            font-weight: 700; text-decoration: none; padding: .3rem 1rem;
             border-radius: 8px; white-space: nowrap; transition: filter .15s ease;
         }}
         .q4a-cta a:hover {{ filter: brightness(1.08); }}
@@ -414,6 +414,9 @@ def view_ticker(t, lang):
 
     st.markdown(f"### {ticker} | {display_name}")
 
+    # CTA entre la fila de selección del ticker y el gráfico.
+    newsletter_cta(t, "f1_ticker")
+
     # ¿Pertenece actualmente a algún índice? (un periodo abierto = sigue dentro)
     current_member = any(
         end is None for key in ("SPX", "NDX") for _, end in summary.get(key, [])
@@ -464,9 +467,7 @@ def view_ticker(t, lang):
 
     if not delist_row.empty:
         d = delist_row.iloc[0]["Delisting Date"]
-        st.info(f"🪦 {t('f1_delist_date')}: **{fmt_date(d, lang)}**")
-
-    newsletter_cta(t, "f1_ticker")
+        st.info(f"🪦  {t('f1_delist_date')}: **{fmt_date(d, lang)}**")
 
 
 def view_constituents(t, lang, index_key):
@@ -514,14 +515,18 @@ def view_constituents(t, lang, index_key):
         lambda d: fmt_date(d, lang) if pd.notna(d) else ""
     )
 
-    # Botón de descarga entre el bloque del número y la tabla.
+    # Botón de descarga (izq.) + CTA (der.) en la misma fila, entre el número y la tabla.
     download = screen.rename(columns=cols)
-    download_button(
-        download,
-        filename=f"{index_key}_constituents_{iso_date(as_of)}.xlsx",
-        label=t("download_xlsx"),
-        key="dl_f2",
-    )
+    dcol, ctacol = st.columns([1, 2.6])
+    with dcol:
+        download_button(
+            download,
+            filename=f"{index_key}_constituents_{iso_date(as_of)}.xlsx",
+            label=t("download_xlsx"),
+            key="dl_f2",
+        )
+    with ctacol:
+        newsletter_cta(t, "f2_constituents")
 
     date_fmt = date_col_format(lang)
     st.dataframe(
@@ -536,8 +541,6 @@ def view_constituents(t, lang, index_key):
             "Delisting": st.column_config.TextColumn(cols["Delisting"]),
         },
     )
-
-    newsletter_cta(t, "f2_constituents")
 
 
 def view_changes(t, lang, index_key):
@@ -582,6 +585,31 @@ def view_changes(t, lang, index_key):
         "Delisting": st.column_config.TextColumn(cols["Delisting"], width="medium"),
     }
 
+    # Descarga (izq.) + CTA (der.) en la misma fila, entre las fechas y la cabecera de Entradas.
+    if not entries.empty or not exits.empty:
+        combined = pd.concat(
+            [
+                entries.assign(**{"Type": "Entry"}),
+                exits.assign(**{"Type": "Exit"}),
+            ],
+            ignore_index=True,
+        )
+        combined["Delisting"] = combined["Ticker"].map(delist_map).apply(
+            lambda d: fmt_date(d, lang) if pd.notna(d) else ""
+        )
+        dcol, ctacol = st.columns([1, 2.6])
+        with dcol:
+            download_button(
+                combined[["Type", "Ticker", "Name", "Date", "Delisting"]],
+                filename=f"{index_key}_changes_{iso_date(start)}_{iso_date(end)}.xlsx",
+                label=t("download_xlsx"),
+                key="dl_f3",
+            )
+        with ctacol:
+            newsletter_cta(t, "f3_changes")
+    else:
+        newsletter_cta(t, "f3_changes")
+
     # Entradas primero (por fecha de incorporación), luego salidas (por fecha de salida).
     st.markdown(f"#### {t('f3_entries').format(n=len(entries))}")
     if entries.empty:
@@ -600,27 +628,6 @@ def view_changes(t, lang, index_key):
             _with_delisting(exits),
             width="stretch", hide_index=True, column_config=change_cfg,
         )
-
-    # Descarga combinada (dos bloques con etiqueta de tipo); fechas reales para Excel.
-    if not entries.empty or not exits.empty:
-        combined = pd.concat(
-            [
-                entries.assign(**{"Type": "Entry"}),
-                exits.assign(**{"Type": "Exit"}),
-            ],
-            ignore_index=True,
-        )
-        combined["Delisting"] = combined["Ticker"].map(delist_map).apply(
-            lambda d: fmt_date(d, lang) if pd.notna(d) else ""
-        )
-        download_button(
-            combined[["Type", "Ticker", "Name", "Date", "Delisting"]],
-            filename=f"{index_key}_changes_{iso_date(start)}_{iso_date(end)}.xlsx",
-            label=t("download_xlsx"),
-            key="dl_f3",
-        )
-
-    newsletter_cta(t, "f3_changes")
 
 
 # ---------------------------------------------------------------------------
