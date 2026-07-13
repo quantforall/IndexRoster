@@ -33,6 +33,11 @@ MUTED = "#A9B4C4"
 
 NEWSLETTER_URL = "https://quant4all.substack.com/"
 
+
+def sub_url(source: str) -> str:
+    """Enlace de suscripción con UTM para medir de dónde vienen los suscriptores."""
+    return f"{NEWSLETTER_URL}?utm_source=app&utm_medium={source}&utm_campaign=index_roster"
+
 # Fecha hasta la que están actualizados los datos. Al actualizar el Excel, cambia
 # SOLO esta fecha: de aquí salen el límite del selector de fechas y el texto de la
 # alerta (en ambos idiomas).
@@ -111,6 +116,19 @@ def inject_css():
             border-radius: 8px; transition: transform .08s ease, filter .15s ease;
         }}
         .q4a-news a:hover {{ filter: brightness(1.08); transform: translateY(-1px); }}
+        .q4a-cta {{
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 1rem; flex-wrap: wrap;
+            background: rgba(247,147,30,.10); border: 1px solid rgba(247,147,30,.4);
+            border-radius: 12px; padding: .85rem 1.2rem; margin: 1.4rem 0 .3rem 0;
+        }}
+        .q4a-cta .txt {{ color: {WHITE}; font-weight: 600; }}
+        .q4a-cta a {{
+            display: inline-block; background: {ORANGE}; color: {NAVY_BG} !important;
+            font-weight: 700; text-decoration: none; padding: .5rem 1.15rem;
+            border-radius: 8px; white-space: nowrap; transition: filter .15s ease;
+        }}
+        .q4a-cta a:hover {{ filter: brightness(1.08); }}
         .q4a-pill {{
             display:inline-block; padding:.15rem .6rem; border-radius:999px;
             font-size:.8rem; font-weight:700; margin-left:.4rem;
@@ -150,7 +168,8 @@ def inject_css():
         [data-testid="stMarkdownContainer"] .q4a-update,
         [data-testid="stMarkdownContainer"] .q4a-pill.out {{ color: {ORANGE} !important; }}
         [data-testid="stMarkdownContainer"] .q4a-pill.in {{ color: {BLUE} !important; }}
-        [data-testid="stMarkdownContainer"] .q4a-news a {{ color: {NAVY_BG} !important; }}
+        [data-testid="stMarkdownContainer"] .q4a-news a,
+        [data-testid="stMarkdownContainer"] .q4a-cta a {{ color: {NAVY_BG} !important; }}
         /* Inputs (select, texto, fecha) oscuros con texto claro */
         [data-baseweb="select"] > div, [data-baseweb="input"], [data-baseweb="base-input"] {{
             background-color: {NAVY_CARD} !important;
@@ -264,7 +283,20 @@ def newsletter_callout(t):
         <div class="q4a-news">
             <h4>{t('newsletter_title')}</h4>
             <p>{t('newsletter_text')}</p>
-            <a href="{NEWSLETTER_URL}" target="_blank" rel="noopener">{t('newsletter_button')}</a>
+            <a href="{sub_url('hero')}" target="_blank" rel="noopener">{t('newsletter_button')}</a>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def newsletter_cta(t, source: str):
+    """CTA compacto contextual (una línea + botón), en el momento de máximo interés."""
+    st.markdown(
+        f"""
+        <div class="q4a-cta">
+            <span class="txt">{t('cta_inline')}</span>
+            <a href="{sub_url(source)}" target="_blank" rel="noopener">{t('newsletter_button')}</a>
         </div>
         """,
         unsafe_allow_html=True,
@@ -434,6 +466,8 @@ def view_ticker(t, lang):
         d = delist_row.iloc[0]["Delisting Date"]
         st.info(f"🪦 {t('f1_delist_date')}: **{fmt_date(d, lang)}**")
 
+    newsletter_cta(t, "f1_ticker")
+
 
 def view_constituents(t, lang, index_key):
     st.subheader(t("f2_header"))
@@ -502,6 +536,8 @@ def view_constituents(t, lang, index_key):
             "Delisting": st.column_config.TextColumn(cols["Delisting"]),
         },
     )
+
+    newsletter_cta(t, "f2_constituents")
 
 
 def view_changes(t, lang, index_key):
@@ -583,6 +619,8 @@ def view_changes(t, lang, index_key):
             label=t("download_xlsx"),
             key="dl_f3",
         )
+
+    newsletter_cta(t, "f3_changes")
 
 
 # ---------------------------------------------------------------------------
