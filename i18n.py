@@ -8,19 +8,19 @@ TRANSLATIONS = {
         "en": "S&P 500 & Nasdaq 100 · since January 1, 1990",
     },
     "db_updated": {
-        "es": "📅 Base de datos actualizada hasta {date}",
-        "en": "📅 Database updated through {date}",
+        "es": "📅  Base de datos actualizada hasta {date}",
+        "en": "📅  Database updated through {date}",
     },
     "language": {"es": "Idioma", "en": "Language"},
     "choose_action": {"es": "¿Qué quieres hacer?", "en": "What do you want to do?"},
-    "action_ticker": {"es": "🔎 Consultar un ticker", "en": "🔎 Look up a ticker"},
+    "action_ticker": {"es": "🔎  Consultar un ticker", "en": "🔎  Look up a ticker"},
     "action_constituents": {
-        "es": "📅 Constituyentes en una fecha",
-        "en": "📅 Constituents on a date",
+        "es": "📅  Constituyentes en una fecha",
+        "en": "📅  Constituents on a date",
     },
     "action_changes": {
-        "es": "🔁 Entradas y salidas en un periodo",
-        "en": "🔁 Additions & removals in a period",
+        "es": "🔁  Entradas y salidas en un periodo",
+        "en": "🔁  Additions & removals in a period",
     },
     "choose_index": {"es": "Elige el índice", "en": "Choose the index"},
     "navigation": {"es": "Navegación", "en": "Navigation"},
@@ -51,9 +51,9 @@ TRANSLATIONS = {
         "You still have its index membership history below.",
     },
     "f1_delisted_warning": {
-        "es": "⚠️ Este ticker corresponde a una empresa deslistada. No se consulta Yahoo Finance "
+        "es": "⚠️  Este ticker corresponde a una empresa deslistada. No se consulta Yahoo Finance "
         "(no habría datos), pero puedes ver su histórico en los índices.",
-        "en": "⚠️ This ticker is a delisted company. Yahoo Finance is not queried "
+        "en": "⚠️  This ticker is a delisted company. Yahoo Finance is not queried "
         "(no data available), but you can still see its index history.",
     },
     "f1_membership": {"es": "Pertenencia a índices", "en": "Index membership"},
@@ -66,8 +66,8 @@ TRANSLATIONS = {
     "f1_delist_date": {"es": "Fecha de deslistado (dejó de cotizar)", "en": "Delisting date (stopped trading)"},
     "f1_empty": {"es": "Introduce o selecciona un ticker para empezar.", "en": "Enter or select a ticker to start."},
     "f1_not_current": {
-        "es": "ℹ️ Este ticker **no pertenece actualmente** ni al S&P 500 ni al Nasdaq 100.",
-        "en": "ℹ️ This ticker is **not currently a member** of the S&P 500 or the Nasdaq 100.",
+        "es": "ℹ️  Este ticker **no pertenece actualmente** ni al S&P 500 ni al Nasdaq 100.",
+        "en": "ℹ️  This ticker is **not currently a member** of the S&P 500 or the Nasdaq 100.",
     },
 
     # --- Funcionalidad 2: constituyentes en una fecha ---
@@ -97,8 +97,8 @@ TRANSLATIONS = {
     "f3_header": {"es": "Entradas y salidas en un periodo", "en": "Additions & removals in a period"},
     "f3_start": {"es": "Fecha de inicio", "en": "Start date"},
     "f3_end": {"es": "Fecha de fin", "en": "End date"},
-    "f3_entries": {"es": "🟢 Entradas ({n})", "en": "🟢 Additions ({n})"},
-    "f3_exits": {"es": "🔴 Salidas ({n})", "en": "🔴 Removals ({n})"},
+    "f3_entries": {"es": "🟢  Entradas ({n})", "en": "🟢  Additions ({n})"},
+    "f3_exits": {"es": "🔴  Salidas ({n})", "en": "🔴  Removals ({n})"},
     "f3_none_entries": {"es": "Sin entradas en este periodo.", "en": "No additions in this period."},
     "f3_none_exits": {"es": "Sin salidas en este periodo.", "en": "No removals in this period."},
     "f3_table_cols": {
@@ -108,10 +108,10 @@ TRANSLATIONS = {
     "f3_bad_range": {"es": "La fecha de inicio debe ser anterior a la de fin.", "en": "Start date must be before end date."},
 
     # --- Descargas ---
-    "download_xlsx": {"es": "⬇️ Descargar Excel", "en": "⬇️ Download Excel"},
+    "download_xlsx": {"es": "⬇️  Descargar Excel", "en": "⬇️  Download Excel"},
 
     # --- Newsletter ---
-    "newsletter_title": {"es": "📬 Únete a la newsletter de Quant4all", "en": "📬 Join the Quant4all newsletter"},
+    "newsletter_title": {"es": "📬  Únete a la newsletter de Quant4all", "en": "📬  Join the Quant4all newsletter"},
     "newsletter_text": {
         "es": "Trading sistemático | Acciones, ETFs y Futuros | Amibroker. Creando sistemas que "
         "sobreviven al trading real. Comparto lo que realmente funciona. Y tengo un curso gratuito: "
@@ -121,6 +121,10 @@ TRANSLATIONS = {
         "Quantitative Trading From Scratch",
     },
     "newsletter_button": {"es": "Suscribirme gratis", "en": "Subscribe for free"},
+    "cta_inline": {
+        "es": "📬  ¿Te está siendo útil? Suscríbete y no te pierdas nada",
+        "en": "📬  Finding this useful? Subscribe and don't miss a thing",
+    },
 
     # --- Footer / varios ---
     "footer": {
